@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Question Time</string>
+    <string name="correctText">Correct</string>
+    <string name="incorrectText">Incorrect</string>
+    <string name="correctToast">Great!</string>
+    <string name="incorrectToast">Bummer!</string>
+    <string name="initialScore">0/10</string>
+    <string name="q1">There are more than 10,000 lakes in Minnesota</string>
+    <string name="q2">Sweet Martha\'s is the most caloric State Fair Food</string>
+    <string name="q3">Minnehaha Falls is the most visited State Park</string>
+    <string name="q4">Gopher Football is inferior to Iowa Football</string>
+    <string name="q5">Minnesota contains more miles of shoreline than California, Florida and Hawaii combined</string>
+    <string name="q6">Amy Klobuchar drinks Michelob</string>
+    <string name="q7">Spam is good</string>
+    <string name="q8">St Paul isn\'t boring</string>
+    <string name="q9">Uptown never died</string>
+    <string name="q10">Liquor Lyle\'s is superior to the CC Club</string>
+
+
 </resources>
