@@ -1,24 +1,29 @@
 package com.pwneill.questiontime
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import java.security.AccessController.getContext
 
 class MainActivity : AppCompatActivity() {
 
+    var index = 0
+
     val q1 = QuizModel(R.string.q1, true)
-    val q2 = QuizModel(R.string.q2, true)
-    val q3 = QuizModel(R.string.q3, true)
+    val q2 = QuizModel(R.string.q2, false)
+    val q3 = QuizModel(R.string.q3, false)
     val q4 = QuizModel(R.string.q4, true)
     val q5 = QuizModel(R.string.q5, true)
     val q6 = QuizModel(R.string.q6, true)
-    val q7 = QuizModel(R.string.q7, true)
-    val q8 = QuizModel(R.string.q8, true)
+    val q7 = QuizModel(R.string.q7, false)
+    val q8 = QuizModel(R.string.q8, false)
     val q9 = QuizModel(R.string.q9, true)
-    val q10 = QuizModel(R.string.q10, true)
+    val q10 = QuizModel(R.string.q10, false)
 
     private val questionBank: Array<QuizModel> = arrayOf(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10)
 
@@ -28,18 +33,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val textView = findViewById<TextView>(R.id.txtQuestion);
-        textView?.text = "${getString(questionBank.get(0).question)} ";
+        textView?.text = "${getString(questionBank.get(index).question)} ";
 
 
         fun onClick(v: View?) {
 
             when (v?.id) {
                 R.id.trueBtn -> {
-                    Toast.makeText(this, "trueBtn was tapped", Toast.LENGTH_SHORT).show()
+                    checkGuess(true, questionBank.get(index).answer)
+                    changeQuestion()
                 }
                 R.id.falseBtn -> {
-                    Toast.makeText(this, "falseBtn was tapped", Toast.LENGTH_SHORT).show()
-
+                    checkGuess(false, questionBank.get(index).answer)
+                    changeQuestion()
                 }
             }
         }
@@ -52,4 +58,40 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    private fun changeQuestion () {
+
+        questionBank.iterator()
+
+        index += 1
+
+        if (index < questionBank.count()) {
+
+
+            val textView = findViewById<TextView>(R.id.txtQuestion);
+            textView?.text = "${getString(questionBank.get(index).question)} ";
+
+        } else {
+
+            return
+        }
+
     }
+
+     private fun checkGuess ( userGuess: Boolean, answer: Boolean) {
+        Log.i("checkGuess", "foo")
+
+        val msg: String?
+
+        if (userGuess === answer) {
+            msg = "Correct!"
+
+            } else {
+                msg = "Incorrect :("
+
+        }
+
+         Toast.makeText(this,"$msg ",Toast.LENGTH_SHORT).show()
+
+     }
+
+}
