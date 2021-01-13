@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center_horizontal|center_vertical"
-        android:text="test"
+        android:paddingTop="0"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -22,11 +22,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
         android:id="@+id/quizProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:paddingTop="0" />
 
     <TextView
         android:id="@+id/quizStats"
@@ -34,7 +35,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="textview"
+        android:paddingTop="0"
         android:textSize="18sp" />
 
     <Button
@@ -42,6 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:paddingTop="0"
+        android:paddingBottom="0dp"
         android:text="True"
         android:textSize="24sp"
         app:backgroundTint="#0000FF" />
@@ -51,6 +54,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:paddingTop="0"
+        android:paddingBottom="0dp"
         android:text="false"
         android:textSize="24sp"
         app:backgroundTint="#FF0000" />
