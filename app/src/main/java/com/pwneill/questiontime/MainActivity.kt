@@ -1,7 +1,6 @@
 package com.pwneill.questiontime
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -26,13 +25,26 @@ class MainActivity : AppCompatActivity() {
     private val q10 = QuizModel(R.string.q10, false)
 
     private val questionBank: Array<QuizModel> = arrayOf(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10)
+
+    private val scoreKey = "Score"
+    private val indexKey = "Index"
     private var userScore = 0
-    private val userProgress: Int = kotlin.math.ceil(100.0 / questionBank.size).toInt()
+    private var userProgress: Int = kotlin.math.ceil(100.0 / questionBank.size).toInt()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (savedInstanceState != null)  {
+            userScore = savedInstanceState.getInt(scoreKey)
+            index = savedInstanceState.getInt(indexKey)
+            val statsText = findViewById<TextView>(R.id.quizStats)
+            statsText.text = "Your score: $userScore"
+        } else {
+            userScore = 0
+            index = 0
+        }
 
         val questionText = getString(questionBank[index].question)
         val textQuestion = findViewById<TextView>(R.id.txtQuestion)
@@ -74,18 +86,26 @@ class MainActivity : AppCompatActivity() {
                 quizAlert.setCancelable(false)
                 quizAlert.setTitle("Game Over!")
                 quizAlert.setMessage("Your score was $userScore")
-                quizAlert.setPositiveButton("Finish") { _, _ -> finish()}
+                quizAlert.setPositiveButton("Restart?") { _, _ ->
+
+                    userScore = 0
+                   index = 0
+                    val statsText = findViewById<TextView>(R.id.quizStats)
+                    statsText.text = "Your score: $userScore"
+
+                    val progressBar = findViewById<ProgressBar>(R.id.quizProgressBar)
+                    progressBar.progress = 0
+
+                }
 
             quizAlert.show()
         }
 
         questionBank.iterator()
-
-        Log.i("newIndex", "$index")
 //
         val textQuestion = findViewById<TextView>(R.id.txtQuestion)
         val questionText = getString(questionBank[index].question)
-            textQuestion?.text = "$questionText"
+            textQuestion?.text = questionText
 
         val progressBar = findViewById<ProgressBar>(R.id.quizProgressBar)
             progressBar.incrementProgressBy(userProgress)
@@ -93,10 +113,8 @@ class MainActivity : AppCompatActivity() {
     }
 
      private fun checkGuess ( userGuess: Boolean, answer: Boolean) {
-        Log.i("checkGuess", "foo")
 
         val msg: String?
-
 
          if (userGuess == answer) {
              userScore += 1
@@ -106,7 +124,7 @@ class MainActivity : AppCompatActivity() {
              statsText.text = "Your score: $userScore"
 
             } else {
-            msg = "${getString(R.string.incorrectToast)}"
+            msg = getString(R.string.incorrectToast)
 
         }
 
@@ -114,6 +132,10 @@ class MainActivity : AppCompatActivity() {
 
      }
 
-}
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(scoreKey, userScore)
+        outState.putInt(indexKey, index)
+    }
 
-//private val textStats = findViewById<TextView>(R.id.quizStats)
+}
