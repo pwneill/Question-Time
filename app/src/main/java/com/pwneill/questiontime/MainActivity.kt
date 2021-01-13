@@ -6,13 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import org.w3c.dom.Text
 import java.security.AccessController.getContext
 
 class MainActivity : AppCompatActivity() {
 
-    var index = 0
+    var index: Int = 0
 
     val q1 = QuizModel(R.string.q1, true)
     val q2 = QuizModel(R.string.q2, false)
@@ -26,14 +28,20 @@ class MainActivity : AppCompatActivity() {
     val q10 = QuizModel(R.string.q10, false)
 
     private val questionBank: Array<QuizModel> = arrayOf(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10)
+    private var userScore: Int = 0;
+    private val userProgress: Int = kotlin.math.ceil(100.0 / questionBank.size).toInt()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val textView = findViewById<TextView>(R.id.txtQuestion);
-        textView?.text = "${getString(questionBank.get(index).question)} ";
+        val questionText = getString(questionBank.get(index).question)
+        val textQuestion = findViewById<TextView>(R.id.txtQuestion)
+            textQuestion?.text = "$questionText"
+
+        val statsText = findViewById<TextView>(R.id.quizStats)
+             statsText.text = "Your score: $userScore"
 
 
         fun onClick(v: View?) {
@@ -51,29 +59,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         val trueBtn: Button = findViewById(R.id.trueBtn);
-        trueBtn.setOnClickListener{ v: View? -> onClick(v) }
+            trueBtn.setOnClickListener{ v: View? -> onClick(v) }
 
         val falseBtn: Button = findViewById(R.id.falseBtn);
-        falseBtn.setOnClickListener{ v: View? -> onClick(v) }
+            falseBtn.setOnClickListener{ v: View? -> onClick(v) }
 
         }
 
     private fun changeQuestion () {
 
+        index = (index + 1) % 10
+
         questionBank.iterator()
 
-        index += 1
+        Log.i("newIndex", "$index")
+//
+        val textQuestion = findViewById<TextView>(R.id.txtQuestion);
+        val questionText = getString(questionBank.get(index).question)
+            textQuestion?.text = "$questionText";
 
-        if (index < questionBank.count()) {
-
-
-            val textView = findViewById<TextView>(R.id.txtQuestion);
-            textView?.text = "${getString(questionBank.get(index).question)} ";
-
-        } else {
-
-            return
-        }
+        val progressBar = findViewById<ProgressBar>(R.id.quizProgressBar)
+            progressBar.incrementProgressBy(userProgress);
 
     }
 
@@ -82,11 +88,16 @@ class MainActivity : AppCompatActivity() {
 
         val msg: String?
 
-        if (userGuess === answer) {
-            msg = "Correct!"
+
+         if (userGuess === answer) {
+             userScore += 1
+            msg = "${getString(R.string.correctToast)}"
+
+             val statsText = findViewById<TextView>(R.id.quizStats)
+             statsText.text = "Your score: $userScore"
 
             } else {
-                msg = "Incorrect :("
+            msg = "${getString(R.string.incorrectToast)}"
 
         }
 
@@ -95,3 +106,4 @@ class MainActivity : AppCompatActivity() {
      }
 
 }
+//private val textStats = findViewById<TextView>(R.id.quizStats)

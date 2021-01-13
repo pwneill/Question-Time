@@ -3,7 +3,7 @@
     <string name="correctText">Correct</string>
     <string name="incorrectText">Incorrect</string>
     <string name="correctToast">Great!</string>
-    <string name="incorrectToast">Bummer!</string>
+    <string name="incorrectToast">Bummer :(</string>
     <string name="initialScore">0/10</string>
     <string name="q1">There are more than 10,000 lakes in Minnesota</string>
     <string name="q2">Sweet Martha\'s is the most caloric State Fair Food</string>
